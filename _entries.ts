@@ -1,5 +1,7 @@
+import { ValidIterable } from "./mod.ts";
+
 async function* entries<T>(
-  asyncIterable: AsyncIterable<T>,
+  asyncIterable: ValidIterable<T>,
 ): AsyncGenerator<[number, T], void, void> {
   let index = 0;
   for await (const item of asyncIterable) {

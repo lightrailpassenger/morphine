@@ -1,7 +1,8 @@
 import _createEndedPromise from "./_createEndedPromise.ts";
+import { ValidIterable } from "./mod.ts";
 
 async function* flatMap<T, U>(
-  asyncIterable: AsyncIterable<T>,
+  asyncIterable: ValidIterable<T>,
   flatMapper: (
     item: T,
     index: number,

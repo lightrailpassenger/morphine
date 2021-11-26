@@ -1,7 +1,8 @@
 import _createEndedPromise from "./_createEndedPromise.ts";
+import { ValidIterable } from "./mod.ts";
 
 async function* map<T, U>(
-  asyncIterable: AsyncIterable<T>,
+  asyncIterable: ValidIterable<T>,
   mapper: (item: T, index: number) => Promise<U>,
 ): AsyncGenerator<U, void, void> {
   const resolvedValues = new Map<number, U>();

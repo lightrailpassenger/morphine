@@ -20,6 +20,23 @@ Deno.test("Flat map", async () => {
   assertEquals(results, [..."HELLOWORLD"]);
 });
 
+Deno.test("Flat map - sync iterable", async () => {
+  const it = new Morphine<string>((function* () {
+    yield "hello";
+    yield Promise.resolve("world");
+  })());
+  const results: Array<string> = [];
+  for await (
+    const item of it.flatMap(async (str) => {
+      await delay(1000);
+      return str.toUpperCase();
+    })
+  ) {
+    results.push(item);
+  }
+  assertEquals(results, [..."HELLOWORLD"]);
+});
+
 Deno.test("Flat map - reverse order", async () => {
   const it = new Morphine<string>((async function* () {
     yield "hello";

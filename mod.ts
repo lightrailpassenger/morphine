@@ -2,9 +2,11 @@ import _entries from "./_entries.ts";
 import _flatMap from "./_flatMap.ts";
 import _map from "./_map.ts";
 
+type ValidIterable<T> = AsyncIterable<T> | Iterable<T | Promise<T>>;
+
 class Morphine<T> {
-  private _asyncIterable: AsyncIterable<T>;
-  constructor(asyncIterable: AsyncIterable<T>) {
+  private _asyncIterable: ValidIterable<T>;
+  constructor(asyncIterable: ValidIterable<T>) {
     this._asyncIterable = asyncIterable;
   }
 
@@ -30,4 +32,5 @@ class Morphine<T> {
   }
 }
 
+export type { ValidIterable };
 export default Morphine;

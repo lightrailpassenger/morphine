@@ -20,6 +20,23 @@ Deno.test("Map", async () => {
   assertEquals(results, ["HELLO", "WORLD"]);
 });
 
+Deno.test("Map - sync iterable", async () => {
+  const it = new Morphine<string>((function* () {
+    yield "hello";
+    yield Promise.resolve("world");
+  })());
+  const results: Array<string> = [];
+  for await (
+    const item of it.map(async (str) => {
+      await delay(1000);
+      return str.toUpperCase();
+    })
+  ) {
+    results.push(item);
+  }
+  assertEquals(results, ["HELLO", "WORLD"]);
+});
+
 Deno.test("Map - reverse order", async () => {
   const it = new Morphine<string>((async function* () {
     yield "hello";

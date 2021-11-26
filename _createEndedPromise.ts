@@ -1,11 +1,12 @@
 import entries from "./_entries.ts";
+import { ValidIterable } from "./mod.ts";
 
 interface CallbackRefType<U> {
   onResolveValue(index: number, value: U): void;
 }
 
 function createEndedPromise<T, U>(
-  asyncIterable: AsyncIterable<T>,
+  asyncIterable: ValidIterable<T>,
   mapper: (item: T, index: number) => Promise<U>,
   callbackRef: CallbackRefType<U>,
 ): Promise<true> {
