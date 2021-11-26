@@ -4,6 +4,7 @@ import _map from "./_map.ts";
 import _some from "./_some.ts";
 import _indexOf from "./_indexOf.ts";
 import _find from "./_find.ts";
+import _reduce from "./_reduce.ts";
 
 type ValidIterable<T> = AsyncIterable<T> | Iterable<T | Promise<T>>;
 
@@ -41,6 +42,13 @@ class Morphine<T> {
 
   map<U>(mapper: (item: T, index: number) => Promise<U>): Morphine<U> {
     return new Morphine(_map(this._asyncIterable, mapper));
+  }
+
+  reduce<U>(
+    reducer: (acc: U, cur: T, index: number) => Promise<U>,
+    initialValue: U,
+  ): Promise<U> {
+    return _reduce(this._asyncIterable, reducer, initialValue);
   }
 
   flatMap<U>(
