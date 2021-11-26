@@ -6,9 +6,10 @@ async function shortcircuit<T>(
   asyncIterable: ValidIterable<T>,
   shouldShortcircuit: (item: T, index: number) => Promise<boolean>,
 ) {
-  let iterablePromises: Array<Promise<void>> = [];
-  for await (let [index, item] of entries(asyncIterable)) {
+  const iterablePromises: Array<Promise<void>> = [];
+  for await (const [index, item] of entries(asyncIterable)) {
     iterablePromises.push(
+      // deno-lint-ignore no-async-promise-executor
       new Promise(async (res, rej) => {
         try {
           const shouldShortcircuitResult = await shouldShortcircuit(

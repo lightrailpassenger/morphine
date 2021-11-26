@@ -20,7 +20,7 @@ async function reduce<T, U>(
   let nextResolvingIndex = 0;
   const endedPromise: Promise<true> = _createEndedPromise(
     asyncIterable,
-    async (item) => (item),
+    (item) => (Promise.resolve(item)),
     onResolveValueRef,
   );
 
