@@ -2,7 +2,10 @@ import _createEndedPromise from "./_createEndedPromise.ts";
 
 async function* flatMap<T, U>(
   asyncIterable: AsyncIterable<T>,
-  flatMapper: (item: T, index: number) => Promise<Iterable<U> | AsyncIterable<U>>,
+  flatMapper: (
+    item: T,
+    index: number,
+  ) => Promise<Iterable<U> | AsyncIterable<U>>,
 ): AsyncGenerator<U, void, undefined> {
   const resolvedValues = new Map<number, Iterable<U> | AsyncIterable<U>>();
   let callback: () => void;
@@ -16,7 +19,11 @@ async function* flatMap<T, U>(
     callback = res;
   });
   let nextResolvingIndex = 0;
-  const endedPromise: Promise<true> = _createEndedPromise(asyncIterable, flatMapper, onResolveValueRef);
+  const endedPromise: Promise<true> = _createEndedPromise(
+    asyncIterable,
+    flatMapper,
+    onResolveValueRef,
+  );
 
   while (1) {
     const hasEnded = await Promise.race([newlyResolvedPromise, endedPromise]);
@@ -27,6 +34,7 @@ async function* flatMap<T, U>(
       callback = res;
     });
     while (resolvedValues.has(nextResolvingIndex)) {
+      // deno-lint-ignore no-explicit-any
       yield* resolvedValues.get(nextResolvingIndex) as any;
       nextResolvingIndex++;
     }

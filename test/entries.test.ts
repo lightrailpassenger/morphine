@@ -1,5 +1,4 @@
 import { assertEquals } from "https://deno.land/std@0.115.1/testing/asserts.ts";
-import { delay } from "https://deno.land/std@0.115.1/async/delay.ts";
 
 import Morphine from "../mod.ts";
 

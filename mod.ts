@@ -20,7 +20,12 @@ class Morphine<T> {
     return new Morphine(_map(this._asyncIterable, mapper));
   }
 
-  flatMap<U>(flatMapper: (item: T, index: number) => Promise<Iterable<U> | AsyncIterable<U>>): Morphine<U> {
+  flatMap<U>(
+    flatMapper: (
+      item: T,
+      index: number,
+    ) => Promise<Iterable<U> | AsyncIterable<U>>,
+  ): Morphine<U> {
     return new Morphine(_flatMap(this._asyncIterable, flatMapper));
   }
 }

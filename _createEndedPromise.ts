@@ -4,7 +4,11 @@ interface CallbackRefType<U> {
   onResolveValue(index: number, value: U): void;
 }
 
-async function createEndedPromise<T, U>(asyncIterable: AsyncIterable<T>, mapper: (item: T, index: number) => Promise<U>, callbackRef: CallbackRefType<U>) {
+function createEndedPromise<T, U>(
+  asyncIterable: AsyncIterable<T>,
+  mapper: (item: T, index: number) => Promise<U>,
+  callbackRef: CallbackRefType<U>,
+): Promise<true> {
   return new Promise<true>((res, rej) => {
     setTimeout(async () => {
       try {

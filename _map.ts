@@ -16,7 +16,11 @@ async function* map<T, U>(
     callback = res;
   });
   let nextResolvingIndex = 0;
-  const endedPromise: Promise<true> = _createEndedPromise(asyncIterable, mapper, onResolveValueRef);
+  const endedPromise: Promise<true> = _createEndedPromise(
+    asyncIterable,
+    mapper,
+    onResolveValueRef,
+  );
 
   while (1) {
     const hasEnded = await Promise.race([newlyResolvedPromise, endedPromise]);
