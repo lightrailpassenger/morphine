@@ -32,3 +32,31 @@ await Promise.all(mappedPromises);
 ```
 
 but this will not work properly if the iterable represents an infinite stream.
+
+# Example
+
+The following code logs the square of an incrementing counter every second.
+
+```
+const delay = (ms) => (new Promise((res) => {
+  setTimeout(res, ms);
+}));
+const it = new Morphine((async function*() {
+  let counter = 0;
+  while (1) {
+    counter++;
+    yield counter;
+    await delay(1000);
+  }
+})());
+const mapped = it.map(async (item) => (item ** 2));
+for await (let item of mapped) {
+  console.log(item);
+}
+// output:
+// 1
+// 4
+// 9
+// 16
+// ...
+```
